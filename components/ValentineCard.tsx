@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import confetti from "canvas-confetti";
 import { playPop, playSuccessJingle } from "@/hooks/useSound";
@@ -25,9 +25,14 @@ export default function ValentineCard({ onYes }: { onYes: () => void }) {
   const [showCryingCat, setShowCryingCat] = useState(false);
   const cardControls = useAnimation();
 
-  // Yes starts small (0.6) and shrinks by 0.1 each No, minimum 0.2
-  const yesScale = Math.max(0.2, 0.6 - noCount * 0.1);
-  const noScale = 1; // No button always big and inviting
+  // Yes grows bigger, No shrinks
+  const yesScale = 1 + noCount * 0.15;
+  const noScale = Math.max(0.5, 1 - noCount * 0.08);
+  const noPosition = () => ({
+    x: (Math.random() - 0.5) * 200,
+    y: (Math.random() - 0.5) * 100,
+  });
+  const [noOffset, setNoOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setImageSrc("https://cataas.com/cat/gif?t=" + Date.now());
@@ -38,6 +43,7 @@ export default function ValentineCard({ onYes }: { onYes: () => void }) {
     const newCount = noCount + 1;
     setNoCount(newCount);
     setMessageIndex(newCount % rejectionMessages.length);
+    setNoOffset(noPosition());
 
     if (newCount >= 4) {
       setShowCryingCat(true);
@@ -86,6 +92,7 @@ export default function ValentineCard({ onYes }: { onYes: () => void }) {
         animate={cardControls}
         className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl shadow-2xl shadow-romantic-200/50 dark:shadow-romantic-900/30 p-8 border border-white/40 dark:border-gray-700/40"
       >
+        {/* Cat GIF */}
         <motion.div
           className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden shadow-lg"
           whileHover={{ scale: 1.1, rotate: 2 }}
@@ -96,11 +103,13 @@ export default function ValentineCard({ onYes }: { onYes: () => void }) {
             alt="Cute cat"
             className="w-full h-full object-cover"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://placekitten.com/200/200";
+              (e.target as HTMLImageElement).src =
+                "https://placekitten.com/200/200";
             }}
           />
         </motion.div>
 
+        {/* Dynamic question / message */}
         <motion.h1
           key={messageIndex}
           initial={{ opacity: 0, y: 10 }}
@@ -112,9 +121,9 @@ export default function ValentineCard({ onYes }: { onYes: () => void }) {
             : rejectionMessages[messageIndex]}
         </motion.h1>
 
-        {/* Buttons container: Yes tiny, No big and stationary */}
-        <div className="relative flex justify-center gap-6 h-20 items-center">
-          {/* Yes button – shrinks to near invisible */}
+        {/* Buttons */}
+        <div className="relative flex justify-center gap-6 h-20">
+          {/* Yes button – grows */}
           <motion.button
             onClick={handleYes}
             animate={{ scale: yesScale }}
@@ -125,13 +134,19 @@ export default function ValentineCard({ onYes }: { onYes: () => void }) {
             Yes
           </motion.button>
 
-          {/* No button – always full size, easy to click */}
+          {/* No button – shrinks and moves */}
           <motion.button
             onClick={handleNo}
-            animate={{ scale: noScale }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold text-xl rounded-2xl shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            animate={{
+              x: noOffset.x,
+              y: noOffset.y,
+              scale: noScale,
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            whileHover={{ scale: noScale * 1.05 }}
+            whileTap={{ scale: noScale * 0.9 }}
+            className="absolute px-8 py-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold rounded-2xl shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            style={{ left: "calc(50% + 1rem)" }}
           >
             No
           </motion.button>

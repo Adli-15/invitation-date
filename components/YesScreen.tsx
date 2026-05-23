@@ -1,59 +1,36 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-/* ---------- Reusable image upload component ---------- */
-function ImageUpload({
-  onImageChange,
+/* ---------- Typewriter animation component ---------- */
+function TypewriterText({
+  text,
+  speed = 30,
+  className = "",
 }: {
-  onImageChange: (dataUrl: string) => void;
+  text: string;
+  speed?: number;
+  className?: string;
 }) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [displayed, setDisplayed] = useState("");
 
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      onImageChange(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
+  useEffect(() => {
+    setDisplayed("");
+    let i = 0;
+    const timer = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) clearInterval(timer);
+    }, speed);
+    return () => clearInterval(timer);
+  }, [text, speed]);
 
-  return (
-    <div className="flex flex-col items-center">
-      <div
-        onClick={() => fileInputRef.current?.click()}
-        className="w-28 h-28 rounded-2xl border-2 border-dashed border-romantic-300 flex items-center justify-center cursor-pointer hover:bg-romantic-50 transition-colors"
-      >
-        <span className="text-3xl text-romantic-400">📷</span>
-      </div>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleFile}
-        className="hidden"
-      />
-      <p className="text-xs mt-1 text-gray-500">Tap to upload</p>
-    </div>
-  );
+  return <p className={className}>{displayed}</p>;
 }
 
 /* ---------- Page 1: Thank You ---------- */
 function ThankYouPage() {
-  const [images, setImages] = useState<string[]>([]);
-  const [text, setText] = useState(
-    "I still can’t believe you said yes. Here are some of my favourite moments that remind me of you... 💕"
-  );
-
-  const handleImageUpload = (index: number, dataUrl: string) => {
-    const updated = [...images];
-    updated[index] = dataUrl;
-    setImages(updated);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -69,41 +46,32 @@ function ThankYouPage() {
         Here are some of our favourite pictures
       </p>
 
-      {/* 3 image upload slots */}
+      {/* Static image gallery – replace images in /public/images/ */}
       <div className="flex justify-center gap-4 mb-8 flex-wrap">
-        {[0, 1, 2].map((idx) => (
-          <div key={idx} className="flex flex-col items-center">
-            {images[idx] ? (
-              <img
-                src={images[idx]}
-                alt={`Upload ${idx + 1}`}
-                className="w-28 h-28 object-cover rounded-2xl shadow-lg"
-              />
-            ) : (
-              <ImageUpload onImageChange={(url) => handleImageUpload(idx, url)} />
-            )}
-          </div>
+        {[1, 2, 3].map((num) => (
+          <img
+            key={num}
+            src={`/images/thankyou${num}.jpg`}
+            alt={`Memory ${num}`}
+            className="w-28 h-28 object-cover rounded-2xl shadow-lg"
+          />
         ))}
       </div>
 
-      {/* Editable text area */}
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="w-full p-4 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-romantic-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 resize-none focus:outline-none focus:ring-2 focus:ring-romantic-400"
-        rows={5}
-      />
+      {/* Typewriter romantic message */}
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-romantic-200 dark:border-gray-600 rounded-2xl p-5 shadow-lg">
+        <TypewriterText
+          text="I still can't believe you said yes. Every moment with you feels like a dream. You make my world pink and full of love. I can't wait for our date! 💕"
+          speed={25}
+          className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed"
+        />
+      </div>
     </motion.div>
   );
 }
 
 /* ---------- Page 2: Dress Code ---------- */
 function DressCodePage() {
-  const [dressImage, setDressImage] = useState<string | null>(null);
-  const [description, setDescription] = useState(
-    "Wear something pink or floral! Soft pastels, cute dress or shirt. Be yourself but extra romantic. 🌸"
-  );
-
   return (
     <motion.div
       initial={{ opacity: 0, x: 100 }}
@@ -119,26 +87,23 @@ function DressCodePage() {
         A little inspiration for our look
       </p>
 
-      {/* Outfit image upload */}
+      {/* Static outfit image */}
       <div className="flex justify-center mb-6">
-        {dressImage ? (
-          <img
-            src={dressImage}
-            alt="Outfit reference"
-            className="w-40 h-40 object-cover rounded-3xl shadow-lg"
-          />
-        ) : (
-          <ImageUpload onImageChange={(url) => setDressImage(url)} />
-        )}
+        <img
+          src="/images/outfit.jpg"
+          alt="Outfit reference"
+          className="w-40 h-40 object-cover rounded-3xl shadow-lg"
+        />
       </div>
 
-      {/* Description */}
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="w-full p-4 rounded-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-romantic-200 dark:border-gray-600 text-gray-700 dark:text-gray-200 resize-none focus:outline-none focus:ring-2 focus:ring-romantic-400"
-        rows={4}
-      />
+      {/* Typewriter description */}
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-romantic-200 dark:border-gray-600 rounded-2xl p-5 shadow-lg">
+        <TypewriterText
+          text="Think soft pastels, romantic florals, or a cute dress. Just be comfortable and be yourself – because you always look perfect to me. 🌸"
+          speed={20}
+          className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed"
+        />
+      </div>
     </motion.div>
   );
 }
@@ -165,7 +130,6 @@ function PlanOfTheDayPage() {
         What are we gonna do for the day? 💭
       </h1>
 
-      {/* Timeline cards */}
       <div className="space-y-4">
         {activities.map((item, i) => (
           <div
@@ -181,10 +145,6 @@ function PlanOfTheDayPage() {
           </div>
         ))}
       </div>
-
-      <p className="text-center text-xs text-gray-400 mt-6">
-        * You can edit the timeline directly in the code
-      </p>
     </motion.div>
   );
 }
@@ -223,7 +183,7 @@ export default function YesScreen() {
         </button>
       </div>
 
-      {/* Page indicator dots */}
+      {/* Dot indicators */}
       <div className="flex gap-2 mt-4">
         {pages.map((_, i) => (
           <div
