@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function TypewriterText({
   text,
-  speed = 30,
+  speed = 25,
   className = "",
 }: {
   text: string;
@@ -24,5 +24,13 @@ export default function TypewriterText({
     return () => clearInterval(timer);
   }, [text, speed]);
 
-  return <p className={className}>{displayed}</p>;
+  return (
+    <p className={`whitespace-pre-line ${className}`}>
+      {displayed}
+      {/* Blinking cursor */}
+      {displayed.length < text.length && (
+        <span className="animate-pulse text-romantic-400">|</span>
+      )}
+    </p>
+  );
 }

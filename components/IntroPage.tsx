@@ -29,17 +29,17 @@ export default function IntroPage({ onFinish }: { onFinish: () => void }) {
 
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-romantic-200 dark:border-gray-600 w-full">
         <TypewriterText
-          text="Hey,
+          text="Hey,\n\n
 
-I’ve been thinking… and I’d really like to take you out properly, just the two of us, away from all the noise and distractions.
+I’ve been thinking… and I’d really like to take you out properly, just the two of us, away from all the noise and distractions.\n\n
 
-Not just as a casual plan, but as a moment I’ll remember — getting to know you better, talking a little longer, laughing a little more, and seeing where the night naturally takes us.
+Not just as a casual plan, but as a moment I’ll remember — getting to know you better, talking a little longer, laughing a little more, and seeing where the night naturally takes us.\n\n
 
-So this is me asking you: would you like to go on a date with me?
+So this is me asking you: would you like to go on a date with me?\n\n
 
-Nothing fancy if you don’t want it to be. Just something simple, warm, and honest — like good food, slow conversations, and a bit of time that feels like it’s just ours.
+Nothing fancy if you don’t want it to be. Just something simple, warm, and honest — like good food, slow conversations, and a bit of time that feels like it’s just ours.\n\n
 
-If you say yes, I’ll make sure it’s worth your time."
+If you say yes, I’ll make sure it’s worth your time.\n"
           speed={25}
           className="text-lg text-gray-700 dark:text-gray-200 leading-relaxed"
         />

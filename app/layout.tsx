@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body
-        className={`${inter.className} bg-romantic-50 dark:bg-gray-900 text-gray-800 dark:text-white min-h-screen relative overflow-hidden transition-colors duration-300`}
+        className={`${inter.className} bg-romantic-50 dark:bg-gray-900 text-gray-800 dark:text-white min-h-screen relative overflow-x-hidden overflow-y-auto transition-colors duration-300`}
       >
         <FloatingHearts />
         <div className="fixed top-4 right-4 flex gap-2 z-50">

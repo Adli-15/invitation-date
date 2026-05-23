@@ -36,15 +36,15 @@ function ThankYouPage() {
       {/* Typewriter romantic message */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-romantic-200 dark:border-gray-600 rounded-2xl p-5 shadow-lg">
         <TypewriterText
-          text="I’m really glad you said yes.
+          text="I’m really glad you said yes.\n\n
 
-I don’t want this to feel like just another plan or a normal outing. I want it to be something gentle and meaningful — where we can just be ourselves, talk without rushing, laugh without thinking, and enjoy the kind of quiet moments that feel special without trying too hard.
+I don’t want this to feel like just another plan or a normal outing. I want it to be something gentle and meaningful — where we can just be ourselves, talk without rushing, laugh without thinking, and enjoy the kind of quiet moments that feel special without trying too hard.\n\n
 
-I’ve been looking forward to this more than I probably should admit. Not because of where we’re going, but because of who I’m going with.
+I’ve been looking forward to this more than I probably should admit. Not because of where we’re going, but because of who I’m going with.\n\n
 
-Let’s make it simple, comfortable, and real. Just you, me, and a moment that feels a little different from everything else.
+Let’s make it simple, comfortable, and real. Just you, me, and a moment that feels a little different from everything else.\n\n
 
-I’ll see you soon ❤️"
+I’ll see you soon ❤️\n"
           speed={25}
           className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed"
         />
@@ -149,7 +149,7 @@ export default function YesScreen() {
   const goPrev = () => setPage((p) => Math.max(p - 1, 0));
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col items-center justify-center pb-20">
+    <div className="w-full flex flex-col items-center justify-center pb-20">
       <AnimatePresence mode="wait">{pages[page]}</AnimatePresence>
 
       {/* Navigation buttons */}
