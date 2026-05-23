@@ -1,33 +1,8 @@
 "use client";
 
+import TypewriterText from "./TypewriterText";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-/* ---------- Typewriter animation component ---------- */
-function TypewriterText({
-  text,
-  speed = 30,
-  className = "",
-}: {
-  text: string;
-  speed?: number;
-  className?: string;
-}) {
-  const [displayed, setDisplayed] = useState("");
-
-  useEffect(() => {
-    setDisplayed("");
-    let i = 0;
-    const timer = setInterval(() => {
-      i++;
-      setDisplayed(text.slice(0, i));
-      if (i >= text.length) clearInterval(timer);
-    }, speed);
-    return () => clearInterval(timer);
-  }, [text, speed]);
-
-  return <p className={className}>{displayed}</p>;
-}
 
 /* ---------- Page 1: Thank You ---------- */
 function ThankYouPage() {
@@ -51,7 +26,7 @@ function ThankYouPage() {
         {[1, 2, 3].map((num) => (
           <img
             key={num}
-            src={`/images/thankyou${num}.jpg`}
+            src={`/images/thankyou${num}.jpeg`}
             alt={`Memory ${num}`}
             className="w-28 h-28 object-cover rounded-2xl shadow-lg"
           />
@@ -61,7 +36,15 @@ function ThankYouPage() {
       {/* Typewriter romantic message */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-romantic-200 dark:border-gray-600 rounded-2xl p-5 shadow-lg">
         <TypewriterText
-          text="I still can't believe you said yes. Every moment with you feels like a dream. You make my world pink and full of love. I can't wait for our date! 💕"
+          text="I’m really glad you said yes.
+
+I don’t want this to feel like just another plan or a normal outing. I want it to be something gentle and meaningful — where we can just be ourselves, talk without rushing, laugh without thinking, and enjoy the kind of quiet moments that feel special without trying too hard.
+
+I’ve been looking forward to this more than I probably should admit. Not because of where we’re going, but because of who I’m going with.
+
+Let’s make it simple, comfortable, and real. Just you, me, and a moment that feels a little different from everything else.
+
+I’ll see you soon ❤️"
           speed={25}
           className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed"
         />
@@ -90,7 +73,7 @@ function DressCodePage() {
       {/* Static outfit image */}
       <div className="flex justify-center mb-6">
         <img
-          src="/images/outfit.jpg"
+          src="/images/outfit.jpeg"
           alt="Outfit reference"
           className="w-40 h-40 object-cover rounded-3xl shadow-lg"
         />
@@ -99,7 +82,7 @@ function DressCodePage() {
       {/* Typewriter description */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-romantic-200 dark:border-gray-600 rounded-2xl p-5 shadow-lg">
         <TypewriterText
-          text="Think soft pastels, romantic florals, or a cute dress. Just be comfortable and be yourself – because you always look perfect to me. 🌸"
+          text="Think elegant black — maybe a cute black dress, something classy, soft, or simply your style. But most importantly, just be comfortable and be yourself… because you already look perfect to me.🌸"
           speed={20}
           className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed"
         />
@@ -111,11 +94,15 @@ function DressCodePage() {
 /* ---------- Page 3: Plan of the Day ---------- */
 function PlanOfTheDayPage() {
   const activities = [
-    { time: "10:00 AM", activity: "Breakfast at the cute café" },
-    { time: "12:00 PM", activity: "Picnic in the park" },
-    { time: "3:00 PM", activity: "Watch the sunset together" },
-    { time: "7:00 PM", activity: "Dinner with fairy lights" },
-    { time: "9:00 PM", activity: "Stargazing & slow dancing" },
+    { time: "12:00 PM", activity: "🎁 Surprise Appointment — a little unexpected moment just for Faleesha ✨" },
+    { time: "1:30 PM", activity: "🍽️ Lunch at NakNak FNB — good food, better company 🤍" },
+    { time: "2:00 PM", activity: "🛍️ Window Shopping — strolling through the mall, just enjoying the vibes together" },
+    { time: "3:30 PM", activity: "🎳 Bowling Alley — a bit of friendly competition, a lot of laughter 😄" },
+    { time: "4:30 PM", activity: "🕹️ Fun Scape Arcade — play, win, and act like kids again 🎮" },
+    { time: "5:00 PM", activity: "🍦 Inside Scoop — sweet dessert break to recharge the mood" },
+    { time: "6:30 PM", activity: "📸 Photobooth — capturing cute memories together, one frame at a time 🕯️" },
+    { time: "7:00 PM", activity: "🎤 Karaoke — sing your heart out, no judgment, just fun vibes ✨" },
+    { time: "10:30 PM", activity: "🌙 End of the Day — a slow goodbye with full hearts and tired smiles 🤍" },
   ];
 
   return (
